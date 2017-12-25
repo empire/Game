@@ -8,6 +8,11 @@ import com.sarbezan.mariobros.screens.PlayerScreen
 class MarioBros : Game() {
     lateinit var batch: SpriteBatch
 
+    companion object {
+        val V_WIDTH = 400f
+        val V_HEIGHT = 208f
+    }
+
     override fun create() {
         batch = SpriteBatch()
         setScreen(PlayerScreen(this))
