@@ -8,6 +8,8 @@ object DesktopLauncher {
     @JvmStatic
     fun main(arg: Array<String>) {
         val config = LwjglApplicationConfiguration()
+        config.width = MarioBros.V_WIDTH.toInt()
+        config.height = MarioBros.V_HEIGHT.toInt()
         LwjglApplication(MarioBros(), config)
     }
 }
