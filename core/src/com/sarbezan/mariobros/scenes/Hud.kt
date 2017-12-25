@@ -12,8 +12,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport
 import com.sarbezan.mariobros.MarioBros
 
 class Hud(private val batch: SpriteBatch) {
-    private val cam = OrthographicCamera()
-    private val viewPort = FitViewport(MarioBros.V_WIDTH, MarioBros.V_HEIGHT, cam)
+    private val viewPort = FitViewport(MarioBros.V_WIDTH, MarioBros.V_HEIGHT, OrthographicCamera())
     private val stage = Stage(viewPort, batch)
 
     private val worldTimer = 300
