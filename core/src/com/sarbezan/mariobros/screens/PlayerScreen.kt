@@ -15,6 +15,8 @@ import com.badlogic.gdx.utils.viewport.Viewport
 import com.sarbezan.mariobros.MarioBros
 import com.sarbezan.mariobros.scenes.Hud
 import com.sarbezan.mariobros.sprites.Mario
+import com.sarbezan.mariobros.tools.Brick
+import com.sarbezan.mariobros.tools.Coin
 
 class PlayerScreen(private val game: MarioBros) : Screen {
     private val gameCam = OrthographicCamera()
@@ -111,28 +113,12 @@ class PlayerScreen(private val game: MarioBros) : Screen {
 
         // Coins
         for (mapObject in map.layers[4].objects.getByType(RectangleMapObject::class.java)) {
-            bodyDef.type = BodyDef.BodyType.StaticBody
-            fixtureDef.shape = shape
-            with(mapObject.rectangle) {
-                bodyDef.position.set((x + width / 2) / MarioBros.PPM, (y + height / 2) / MarioBros.PPM)
-                shape.setAsBox(width / 2 / MarioBros.PPM, height / 2 / MarioBros.PPM)
-            }
-            val body = world.createBody(bodyDef);
-
-            body.createFixture(fixtureDef)
+            Coin(world, map, mapObject.rectangle)
         }
 
         // Bricks
         for (mapObject in map.layers[5].objects.getByType(RectangleMapObject::class.java)) {
-            bodyDef.type = BodyDef.BodyType.StaticBody
-            fixtureDef.shape = shape
-            with(mapObject.rectangle) {
-                bodyDef.position.set((x + width / 2) / MarioBros.PPM, (y + height / 2) / MarioBros.PPM)
-                shape.setAsBox(width / 2 / MarioBros.PPM, height / 2 / MarioBros.PPM)
-            }
-            val body = world.createBody(bodyDef);
-
-            body.createFixture(fixtureDef)
+            Brick(world, map, mapObject.rectangle)
         }
     }
 
