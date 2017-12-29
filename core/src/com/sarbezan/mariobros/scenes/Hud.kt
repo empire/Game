@@ -16,7 +16,6 @@ class Hud(private val batch: SpriteBatch) {
     private val stage = Stage(viewPort, batch)
 
     private val worldTimer = 300
-    private val timeCount = 0
     private val score = 0
 
     private val countDownLabel = Label("%03d".format(worldTimer), Label.LabelStyle(BitmapFont(), Color.WHITE))

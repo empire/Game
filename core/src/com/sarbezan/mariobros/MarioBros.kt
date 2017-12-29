@@ -1,9 +1,8 @@
 package com.sarbezan.mariobros
 
 import com.badlogic.gdx.Game
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.sarbezan.mariobros.screens.PlayerScreen
+import com.sarbezan.mariobros.screens.PlayScreen
 
 class MarioBros : Game() {
     lateinit var batch: SpriteBatch
@@ -16,7 +15,7 @@ class MarioBros : Game() {
 
     override fun create() {
         batch = SpriteBatch()
-        setScreen(PlayerScreen(this))
+        setScreen(PlayScreen(this))
     }
 
     override fun render() {
