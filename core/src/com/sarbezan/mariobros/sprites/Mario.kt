@@ -4,10 +4,13 @@ import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.Sprite
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
 import com.badlogic.gdx.utils.Array
 import com.sarbezan.mariobros.MarioBros
 import com.sarbezan.mariobros.screens.PlayScreen
+import com.sarbezan.mariobros.tools.MarioContactListener
+
 class Mario(world: World, screen: PlayScreen) : Sprite(screen.atlas.findRegion("little_mario")) {
     val body: Body
     private val marioStand = TextureRegion(texture, 0, 12, 16, 16)
@@ -36,6 +39,14 @@ class Mario(world: World, screen: PlayScreen) : Sprite(screen.atlas.findRegion("
 
         runningAnimation = getAnimation(0, 4)
         jumpingAnimation = getAnimation(4, 2)
+        world.setContactListener(MarioContactListener())
+
+        fixtureDef.shape = EdgeShape().apply {
+            set(Vector2(-2f / MarioBros.PPM, 6f / MarioBros.PPM),
+                    Vector2(2f / MarioBros.PPM, 6f / MarioBros.PPM))
+        }
+        fixtureDef.isSensor = true
+        body.createFixture(fixtureDef).userData = this
     }
 
     private fun getAnimation(frameStart: Int, frameCount: Int): Animation<TextureRegion> {
@@ -83,8 +94,6 @@ class Mario(world: World, screen: PlayScreen) : Sprite(screen.atlas.findRegion("
             else -> Standing
         }
     }
-
-
 }
 
 sealed class State

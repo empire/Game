@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef
 import com.badlogic.gdx.physics.box2d.PolygonShape
 import com.badlogic.gdx.physics.box2d.World
 
-open class InteractiveTileObject(
+abstract class InteractiveTileObject(
         private val world: World,
         private val map: TiledMap,
         private val bounds: Rectangle) {
@@ -26,8 +26,10 @@ open class InteractiveTileObject(
                     width / 2 / com.sarbezan.mariobros.MarioBros.PPM,
                     height / 2 / com.sarbezan.mariobros.MarioBros.PPM)
         }
-        val body = world.createBody(bodyDef);
+        val body = world.createBody(bodyDef)
 
-        body.createFixture(fixtureDef)
+        body.createFixture(fixtureDef).userData = this
     }
+
+    abstract fun onHitHead()
 }
