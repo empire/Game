@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array
 import com.sarbezan.mariobros.MarioBros
 import com.sarbezan.mariobros.screens.PlayScreen
 import com.sarbezan.mariobros.tools.MarioContactListener
+import kotlin.experimental.or
 
 class Mario(world: World, screen: PlayScreen) : Sprite(screen.atlas.findRegion("little_mario")) {
     val body: Body
@@ -33,6 +34,10 @@ class Mario(world: World, screen: PlayScreen) : Sprite(screen.atlas.findRegion("
         fixtureDef.shape = CircleShape().apply {
             radius = 7f / MarioBros.PPM
         }
+        fixtureDef.filter.categoryBits = MarioBros.MARIO_BIT
+        fixtureDef.filter.maskBits = MarioBros.DEFAULT_BIT or
+                MarioBros.COIN_BIT or
+                MarioBros.BRICK_BIT
         body.createFixture(fixtureDef)
         setBounds(16f, 0f, 16f / MarioBros.PPM, 16f / MarioBros.PPM)
         setRegion(marioStand)
