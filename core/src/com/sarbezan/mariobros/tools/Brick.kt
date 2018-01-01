@@ -1,5 +1,6 @@
 package com.sarbezan.mariobros.tools
 
+import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.physics.box2d.World
@@ -16,5 +17,6 @@ class Brick(world: World, map: TiledMap, bounds: Rectangle) :
         setCategoryFilter(MarioBros.DESTROYED_BIT)
         cell.tile = null
         Hud.addScore(200)
+        MarioBros.assetManager.get<Sound>("audio/sounds/breakblock.wav").play()
     }
 }

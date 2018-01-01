@@ -3,6 +3,7 @@ package com.sarbezan.mariobros.screens
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.Screen
+import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
@@ -54,6 +55,10 @@ class PlayScreen(private val game: MarioBros) : Screen {
         game.batch.end()
 //        game.batch.projectionMatrix = hud.combined
         hud.draw()
+        MarioBros.assetManager.get("audio/music/mario_music.ogg", Music::class.java).apply {
+            isLooping = true
+            play()
+        }
     }
 
     private fun update(delta: Float) {
