@@ -7,25 +7,32 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
-import com.badlogic.gdx.scenes.scene2d.ui.TextField
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.sarbezan.mariobros.MarioBros
 
-class Hud(private val batch: SpriteBatch) {
+class Hud(batch: SpriteBatch) {
     private val viewPort = FitViewport(MarioBros.V_WIDTH, MarioBros.V_HEIGHT, OrthographicCamera())
     private val stage = Stage(viewPort, batch)
 
-    private val worldTimer = 300
-    private val score = 0
+    private var worldTimer = 300
+    private var timer = 0f
 
     private val countDownLabel = Label("%03d".format(worldTimer), Label.LabelStyle(BitmapFont(), Color.WHITE))
-    private val scoreLabel = Label("%06d".format(score), Label.LabelStyle(BitmapFont(), Color.WHITE))
+
     private val timeLabel = Label("TIME", Label.LabelStyle(BitmapFont(), Color.WHITE))
     private val levelLabel = Label("1-1", Label.LabelStyle(BitmapFont(), Color.WHITE))
     private val worldLabel = Label("WORLD", Label.LabelStyle(BitmapFont(), Color.WHITE))
     private val marioLabel = Label("MARIO", Label.LabelStyle(BitmapFont(), Color.WHITE))
 
-    val combined = stage.camera.combined
+    companion object {
+        private var score = 0
+        private val scoreLabel = Label("%06d".format(score), Label.LabelStyle(BitmapFont(), Color.WHITE))
+
+        fun addScore(value: Int) {
+            score += value
+            scoreLabel.setText("%06d".format(score))
+        }
+    }
 
     init {
         val table = Table().apply {
@@ -40,6 +47,16 @@ class Hud(private val batch: SpriteBatch) {
             add(countDownLabel).expandX()
         }
         stage.addActor(table)
+    }
+
+    fun update(dt: Float) {
+        timer += dt
+        if (timer > 1) {
+            timer --
+            worldTimer --
+
+            countDownLabel.setText("%03d".format(worldTimer))
+        }
     }
 
     fun draw() {

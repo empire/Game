@@ -65,6 +65,7 @@ class PlayScreen(private val game: MarioBros) : Screen {
         gameCam.position.x = player.body.position.x
 
         gameCam.update()
+        hud.update(delta)
 
         renderer.setView(gameCam)
     }
