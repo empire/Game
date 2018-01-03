@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
+import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.math.Vector2
@@ -15,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.sarbezan.mariobros.MarioBros
 import com.sarbezan.mariobros.scenes.Hud
+import com.sarbezan.mariobros.sprites.Goomba
 import com.sarbezan.mariobros.sprites.Mario
 
 class PlayScreen(private val game: MarioBros) : Screen {
@@ -24,18 +26,19 @@ class PlayScreen(private val game: MarioBros) : Screen {
     private val hud = Hud(game.batch)
 
     private val mapLoader = TmxMapLoader()
-    private val map = mapLoader.load("level1.tmx")
+    val map: TiledMap = mapLoader.load("level1.tmx")
     private val renderer = OrthogonalTiledMapRenderer(map, 1f / MarioBros.PPM)
 
-    private val world = World(Vector2(0f, -9.8f), true)
+    val world = World(Vector2(0f, -9.8f), true)
     private val b2dRenderer = Box2DDebugRenderer()
 
-    private val player = Mario(world, this)
+    private val player = Mario(this)
+    private val goomba = Goomba(this, 64f, 32f)
 
     init {
         gameCam.position.set(gamePort.worldWidth / 2f, gamePort.worldHeight / 2f, 0f)
 
-        B2WorldCreator(world, map)
+        B2WorldCreator(this)
     }
 
     override fun show() {
@@ -52,6 +55,7 @@ class PlayScreen(private val game: MarioBros) : Screen {
 
         game.batch.begin()
         player.draw(game.batch)
+        goomba.draw(game.batch)
         game.batch.end()
 //        game.batch.projectionMatrix = hud.combined
         hud.draw()
@@ -66,6 +70,7 @@ class PlayScreen(private val game: MarioBros) : Screen {
         world.step(1/60f, 6, 2)
 
         player.update(delta)
+        goomba.update(delta)
 
         gameCam.position.x = player.body.position.x
 

@@ -12,7 +12,7 @@ import com.sarbezan.mariobros.screens.PlayScreen
 import com.sarbezan.mariobros.tools.MarioContactListener
 import kotlin.experimental.or
 
-class Mario(world: World, screen: PlayScreen) : Sprite(screen.atlas.findRegion("little_mario")) {
+class Mario(screen: PlayScreen) : Sprite(screen.atlas.findRegion("little_mario")) {
     val body: Body
     private val marioStand = TextureRegion(texture, 0, 12, 16, 16)
     private val runningAnimation: Animation<TextureRegion>
@@ -28,15 +28,17 @@ class Mario(world: World, screen: PlayScreen) : Sprite(screen.atlas.findRegion("
         val bodyDef = BodyDef()
         bodyDef.type = BodyDef.BodyType.DynamicBody
         bodyDef.position.set(32f / MarioBros.PPM, 32f / MarioBros.PPM)
-        body = world.createBody(bodyDef)
+        body = screen.world.createBody(bodyDef)
 
         val fixtureDef = FixtureDef()
         fixtureDef.shape = CircleShape().apply {
             radius = 7f / MarioBros.PPM
         }
         fixtureDef.filter.categoryBits = MarioBros.MARIO_BIT
-        fixtureDef.filter.maskBits = MarioBros.DEFAULT_BIT or
+        fixtureDef.filter.maskBits = MarioBros.GROUND_BIT or
                 MarioBros.COIN_BIT or
+                MarioBros.ENEMY_BIT or
+                MarioBros.OBJECT_BIT or
                 MarioBros.BRICK_BIT
         body.createFixture(fixtureDef)
         setBounds(16f, 0f, 16f / MarioBros.PPM, 16f / MarioBros.PPM)
@@ -44,7 +46,7 @@ class Mario(world: World, screen: PlayScreen) : Sprite(screen.atlas.findRegion("
 
         runningAnimation = getAnimation(0, 4)
         jumpingAnimation = getAnimation(4, 2)
-        world.setContactListener(MarioContactListener())
+        screen.world.setContactListener(MarioContactListener())
 
         fixtureDef.shape = EdgeShape().apply {
             set(Vector2(-2f / MarioBros.PPM, 6f / MarioBros.PPM),

@@ -14,11 +14,13 @@ class MarioBros : Game() {
         val V_WIDTH = 400f
         val V_HEIGHT = 208f
         val PPM = 100
-        val DEFAULT_BIT: Short = 1
+        val GROUND_BIT: Short = 1
         val MARIO_BIT: Short = 2
         val COIN_BIT: Short = 4
         val BRICK_BIT: Short = 8
         val DESTROYED_BIT: Short = 16
+        val ENEMY_BIT: Short = 32
+        val OBJECT_BIT: Short = 64
 
         // Not do in production, it is not safe and cause problem on Android
         lateinit var assetManager: AssetManager

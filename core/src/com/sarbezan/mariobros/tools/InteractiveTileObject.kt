@@ -1,14 +1,13 @@
 package com.sarbezan.mariobros.tools
 
-import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.physics.box2d.*
 import com.sarbezan.mariobros.MarioBros
+import com.sarbezan.mariobros.screens.PlayScreen
 
 abstract class InteractiveTileObject(
-        private val world: World,
-        private val map: TiledMap,
+        private val screen: PlayScreen,
         private val bounds: Rectangle) {
     private val fixture: Fixture
     private val body: Body
@@ -28,7 +27,7 @@ abstract class InteractiveTileObject(
                     width / 2 / com.sarbezan.mariobros.MarioBros.PPM,
                     height / 2 / com.sarbezan.mariobros.MarioBros.PPM)
         }
-        body = world.createBody(bodyDef)
+        body = screen.world.createBody(bodyDef)
 
         fixture = body.createFixture(fixtureDef)
         fixture.userData = this
@@ -42,7 +41,7 @@ abstract class InteractiveTileObject(
 
     abstract fun onHitHead()
     protected val cell: TiledMapTileLayer.Cell
-        get() = (map.layers[1] as TiledMapTileLayer)
+        get() = (screen.map.layers[1] as TiledMapTileLayer)
                 .getCell((body.position.x * MarioBros.PPM).toInt() / 16,
                         (body.position.y * MarioBros.PPM).toInt() / 16)
 }
