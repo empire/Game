@@ -1,6 +1,7 @@
 package com.sarbezan.mariobros.sprites
 
 import com.badlogic.gdx.graphics.g2d.Animation
+import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
@@ -13,13 +14,13 @@ class Goomba(screen: PlayScreen, x: Float, y: Float) : Enemy(screen, x, y) {
     private lateinit var body: Body
 
     private val textRegion = screen.atlas.findRegion("goomba")
-    private val goombaHit = TextureRegion(textRegion, 32, 0, 16, 16)
 
+    private val goombaHit = TextureRegion(textRegion, 32, 0, 16, 16)
     private var stateTime = 0f
+
     private var walkingAnimation = getAnimation()
     private var destroyed = false
     private var destroying = false
-
     override fun defineEnemy() {
         val bodyDef = BodyDef()
         bodyDef.type = BodyDef.BodyType.DynamicBody
@@ -32,9 +33,10 @@ class Goomba(screen: PlayScreen, x: Float, y: Float) : Enemy(screen, x, y) {
         }
         fixtureDef.filter.categoryBits = MarioBros.ENEMY_BIT
         fixtureDef.filter.maskBits = MarioBros.GROUND_BIT or
+                MarioBros.OBJECT_BIT or
                 MarioBros.MARIO_BIT or
                 MarioBros.BRICK_BIT
-        body.createFixture(fixtureDef)
+        body.createFixture(fixtureDef).userData = this
 
         fixtureDef.shape = PolygonShape().apply {
             set(arrayOf(
@@ -53,10 +55,14 @@ class Goomba(screen: PlayScreen, x: Float, y: Float) : Enemy(screen, x, y) {
     }
 
     fun update(dt: Float) {
+        stateTime += dt
         if (destroying && !destroyed) {
             screen.world.destroyBody(body)
             destroyed = true
+            stateTime = 0f
+            return
         }
+        body.linearVelocity = velocity
         setPosition(body.position.x - width / 2, body.position.y - height / 2)
         setRegion(getFrame(dt))
     }
@@ -65,7 +71,6 @@ class Goomba(screen: PlayScreen, x: Float, y: Float) : Enemy(screen, x, y) {
         if (destroyed) {
             return goombaHit
         }
-        stateTime += dt
         return walkingAnimation.getKeyFrame(stateTime, true)
     }
 
@@ -79,7 +84,18 @@ class Goomba(screen: PlayScreen, x: Float, y: Float) : Enemy(screen, x, y) {
         return animation
     }
 
+    override fun draw(batch: Batch?) {
+        if (!destroyed || stateTime < 1) {
+            super.draw(batch)
+        }
+    }
+
     override fun onHitHead() {
         destroying = true
+    }
+
+    override fun reverseVelocity(x: Boolean, y: Boolean) {
+        if (x) velocity.x = -velocity.x
+        if (y) velocity.y = -velocity.y
     }
 }

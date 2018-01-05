@@ -1,5 +1,6 @@
 package com.sarbezan.mariobros.tools
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.physics.box2d.Contact
 import com.badlogic.gdx.physics.box2d.ContactImpulse
 import com.badlogic.gdx.physics.box2d.ContactListener
@@ -19,8 +20,10 @@ class MarioContactListener: ContactListener {
 
         val cDef = contact.fixtureA.filterData.categoryBits or
                 contact.fixtureB.filterData.categoryBits
-        if (cDef == MarioBros.ENEMY_HEAD_BIT or MarioBros.MARIO_BIT) {
-            (obj as Enemy).onHitHead()
+        when (cDef) {
+            MarioBros.ENEMY_HEAD_BIT or MarioBros.MARIO_BIT -> (obj as Enemy).onHitHead()
+            MarioBros.ENEMY_BIT or MarioBros.OBJECT_BIT -> (obj as Enemy).reverseVelocity(true, false)
+            MarioBros.ENEMY_BIT or MarioBros.MARIO_BIT -> Gdx.app.log("MARIO", "DIED")
         }
         if (mario != null && obj is InteractiveTileObject) {
             obj.onHitHead()
