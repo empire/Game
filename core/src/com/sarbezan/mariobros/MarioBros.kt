@@ -21,6 +21,7 @@ class MarioBros : Game() {
         val DESTROYED_BIT: Short = 16
         val ENEMY_BIT: Short = 32
         val OBJECT_BIT: Short = 64
+        val ENEMY_HEAD_BIT: Short = 128
 
         // Not do in production, it is not safe and cause problem on Android
         lateinit var assetManager: AssetManager
@@ -46,7 +47,6 @@ class MarioBros : Game() {
     override fun dispose() {
         batch.dispose()
         assetManager.dispose()
-        batch.dispose()
     }
 }
 

@@ -2,10 +2,8 @@ package com.sarbezan.mariobros.sprites
 
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.badlogic.gdx.physics.box2d.Body
-import com.badlogic.gdx.physics.box2d.BodyDef
-import com.badlogic.gdx.physics.box2d.CircleShape
-import com.badlogic.gdx.physics.box2d.FixtureDef
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.physics.box2d.*
 import com.badlogic.gdx.utils.Array
 import com.sarbezan.mariobros.MarioBros
 import com.sarbezan.mariobros.screens.PlayScreen
@@ -15,9 +13,12 @@ class Goomba(screen: PlayScreen, x: Float, y: Float) : Enemy(screen, x, y) {
     private lateinit var body: Body
 
     private val textRegion = screen.atlas.findRegion("goomba")
-    private var stateTime = 0f
+    private val goombaHit = TextureRegion(textRegion, 32, 0, 16, 16)
 
+    private var stateTime = 0f
     private var walkingAnimation = getAnimation()
+    private var destroyed = false
+    private var destroying = false
 
     override fun defineEnemy() {
         val bodyDef = BodyDef()
@@ -34,15 +35,36 @@ class Goomba(screen: PlayScreen, x: Float, y: Float) : Enemy(screen, x, y) {
                 MarioBros.MARIO_BIT or
                 MarioBros.BRICK_BIT
         body.createFixture(fixtureDef)
+
+        fixtureDef.shape = PolygonShape().apply {
+            set(arrayOf(
+                    Vector2(-5f / MarioBros.PPM, 8f / MarioBros.PPM),
+                    Vector2(5f / MarioBros.PPM, 8f / MarioBros.PPM),
+                    Vector2(-3f / MarioBros.PPM, 3f / MarioBros.PPM),
+                    Vector2(3f / MarioBros.PPM, 3f / MarioBros.PPM))
+            )
+        }
+        fixtureDef.filter.categoryBits = MarioBros.ENEMY_HEAD_BIT
+        body.createFixture(fixtureDef).apply {
+            userData = this@Goomba
+            restitution = 0.5f
+        }
         setBounds(16f, 0f, 16f / MarioBros.PPM, 16f / MarioBros.PPM)
     }
 
     fun update(dt: Float) {
+        if (destroying && !destroyed) {
+            screen.world.destroyBody(body)
+            destroyed = true
+        }
         setPosition(body.position.x - width / 2, body.position.y - height / 2)
         setRegion(getFrame(dt))
     }
 
     private fun getFrame(dt: Float): TextureRegion {
+        if (destroyed) {
+            return goombaHit
+        }
         stateTime += dt
         return walkingAnimation.getKeyFrame(stateTime, true)
     }
@@ -55,5 +77,9 @@ class Goomba(screen: PlayScreen, x: Float, y: Float) : Enemy(screen, x, y) {
         val animation = Animation<TextureRegion>(0.4f, frames)
         frames.clear()
         return animation
+    }
+
+    override fun onHitHead() {
+        destroying = true
     }
 }

@@ -9,4 +9,5 @@ abstract class Enemy(protected val screen: PlayScreen, x: Float, y: Float) : Spr
         defineEnemy()
     }
     protected abstract fun defineEnemy()
+    abstract fun onHitHead()
 }

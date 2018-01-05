@@ -38,6 +38,7 @@ class Mario(screen: PlayScreen) : Sprite(screen.atlas.findRegion("little_mario")
         fixtureDef.filter.maskBits = MarioBros.GROUND_BIT or
                 MarioBros.COIN_BIT or
                 MarioBros.ENEMY_BIT or
+                MarioBros.ENEMY_HEAD_BIT or
                 MarioBros.OBJECT_BIT or
                 MarioBros.BRICK_BIT
         body.createFixture(fixtureDef)
