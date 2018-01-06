@@ -1,4 +1,4 @@
-package com.sarbezan.mariobros.tools
+package com.sarbezan.mariobros.sprites.tileObjects
 
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.math.Rectangle

@@ -6,8 +6,9 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse
 import com.badlogic.gdx.physics.box2d.ContactListener
 import com.badlogic.gdx.physics.box2d.Manifold
 import com.sarbezan.mariobros.MarioBros
-import com.sarbezan.mariobros.sprites.Enemy
-import com.sarbezan.mariobros.sprites.Mario
+import com.sarbezan.mariobros.sprites.enemies.Enemy
+import com.sarbezan.mariobros.sprites.items.Mario
+import com.sarbezan.mariobros.sprites.tileObjects.InteractiveTileObject
 import kotlin.experimental.or
 
 class MarioContactListener: ContactListener {

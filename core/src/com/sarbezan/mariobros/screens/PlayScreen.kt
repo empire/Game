@@ -16,8 +16,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.sarbezan.mariobros.MarioBros
 import com.sarbezan.mariobros.scenes.Hud
-import com.sarbezan.mariobros.sprites.Goomba
-import com.sarbezan.mariobros.sprites.Mario
+import com.sarbezan.mariobros.sprites.items.Mario
 
 class PlayScreen(private val game: MarioBros) : Screen {
     val atlas = TextureAtlas("Mario_and_Enemies.atlas")
@@ -68,7 +67,12 @@ class PlayScreen(private val game: MarioBros) : Screen {
         world.step(1/60f, 6, 2)
 
         player.update(delta)
-        creator.goombas.map { it.update(delta) }
+        creator.goombas.map {
+            it.update(delta)
+            if (it.x < player.x + 304 / MarioBros.PPM) {
+                it.body.isActive = true
+            }
+        }
 
         gameCam.position.x = player.body.position.x
 

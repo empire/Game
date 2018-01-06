@@ -1,4 +1,4 @@
-package com.sarbezan.mariobros.sprites
+package com.sarbezan.mariobros.sprites.enemies
 
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.Batch
@@ -11,7 +11,7 @@ import com.sarbezan.mariobros.screens.PlayScreen
 import kotlin.experimental.or
 
 class Goomba(screen: PlayScreen, x: Float, y: Float) : Enemy(screen, x, y) {
-    private lateinit var body: Body
+    override lateinit var body: Body
 
     private val textRegion = screen.atlas.findRegion("goomba")
 

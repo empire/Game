@@ -1,4 +1,4 @@
-package com.sarbezan.mariobros.tools
+package com.sarbezan.mariobros.sprites.tileObjects
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.math.Rectangle

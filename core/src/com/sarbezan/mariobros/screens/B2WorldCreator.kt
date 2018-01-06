@@ -6,9 +6,9 @@ import com.badlogic.gdx.physics.box2d.FixtureDef
 import com.badlogic.gdx.physics.box2d.PolygonShape
 import com.badlogic.gdx.utils.Array
 import com.sarbezan.mariobros.MarioBros
-import com.sarbezan.mariobros.sprites.Goomba
-import com.sarbezan.mariobros.tools.Brick
-import com.sarbezan.mariobros.tools.Coin
+import com.sarbezan.mariobros.sprites.enemies.Goomba
+import com.sarbezan.mariobros.sprites.tileObjects.Brick
+import com.sarbezan.mariobros.sprites.tileObjects.Coin
 
 class B2WorldCreator(screen: PlayScreen) {
     val goombas = Array<Goomba>()

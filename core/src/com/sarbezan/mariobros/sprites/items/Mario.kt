@@ -1,4 +1,4 @@
-package com.sarbezan.mariobros.sprites
+package com.sarbezan.mariobros.sprites.items
 
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.Sprite
