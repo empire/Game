@@ -52,7 +52,7 @@ class Hud(batch: SpriteBatch) {
     fun update(dt: Float) {
         timer += dt
         if (timer > 1) {
-            timer --
+            timer = 0f
             worldTimer --
 
             countDownLabel.setText("%03d".format(worldTimer))

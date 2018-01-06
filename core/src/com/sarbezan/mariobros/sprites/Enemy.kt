@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2
 import com.sarbezan.mariobros.screens.PlayScreen
 
 abstract class Enemy(protected val screen: PlayScreen, x: Float, y: Float) : Sprite() {
-    protected val velocity = Vector2(.9f, 0f)
+    protected val velocity = Vector2(.5f, 0f)
     init {
         setPosition(x, y)
         defineEnemy()

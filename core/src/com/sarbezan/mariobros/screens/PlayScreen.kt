@@ -33,12 +33,10 @@ class PlayScreen(private val game: MarioBros) : Screen {
     private val b2dRenderer = Box2DDebugRenderer()
 
     private val player = Mario(this)
-    private val goomba = Goomba(this, 64f, 32f)
+    val creator = B2WorldCreator(this)
 
     init {
         gameCam.position.set(gamePort.worldWidth / 2f, gamePort.worldHeight / 2f, 0f)
-
-        B2WorldCreator(this)
     }
 
     override fun show() {
@@ -55,7 +53,7 @@ class PlayScreen(private val game: MarioBros) : Screen {
 
         game.batch.begin()
         player.draw(game.batch)
-        goomba.draw(game.batch)
+        creator.goombas.map { it.draw(game.batch) }
         game.batch.end()
 //        game.batch.projectionMatrix = hud.combined
         hud.draw()
@@ -70,7 +68,7 @@ class PlayScreen(private val game: MarioBros) : Screen {
         world.step(1/60f, 6, 2)
 
         player.update(delta)
-        goomba.update(delta)
+        creator.goombas.map { it.update(delta) }
 
         gameCam.position.x = player.body.position.x
 

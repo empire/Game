@@ -24,6 +24,11 @@ class MarioContactListener: ContactListener {
             MarioBros.ENEMY_HEAD_BIT or MarioBros.MARIO_BIT -> (obj as Enemy).onHitHead()
             MarioBros.ENEMY_BIT or MarioBros.OBJECT_BIT -> (obj as Enemy).reverseVelocity(true, false)
             MarioBros.ENEMY_BIT or MarioBros.MARIO_BIT -> Gdx.app.log("MARIO", "DIED")
+            MarioBros.ENEMY_BIT or MarioBros.GROUND_BIT -> (obj as? Enemy)?.reverseVelocity(true, false)
+            MarioBros.ENEMY_BIT -> {
+                (contact.fixtureA.userData as? Enemy)?.reverseVelocity(true, false)
+                (contact.fixtureB.userData as? Enemy)?.reverseVelocity(true, false)
+            }
         }
         if (mario != null && obj is InteractiveTileObject) {
             obj.onHitHead()

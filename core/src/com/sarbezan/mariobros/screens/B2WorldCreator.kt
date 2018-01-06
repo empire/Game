@@ -1,13 +1,18 @@
 package com.sarbezan.mariobros.screens
 
-import com.badlogic.gdx.maps.tiled.TiledMap
-import com.sarbezan.mariobros.tools.Coin
 import com.badlogic.gdx.maps.objects.RectangleMapObject
-import com.badlogic.gdx.physics.box2d.*
+import com.badlogic.gdx.physics.box2d.BodyDef
+import com.badlogic.gdx.physics.box2d.FixtureDef
+import com.badlogic.gdx.physics.box2d.PolygonShape
+import com.badlogic.gdx.utils.Array
 import com.sarbezan.mariobros.MarioBros
+import com.sarbezan.mariobros.sprites.Goomba
 import com.sarbezan.mariobros.tools.Brick
+import com.sarbezan.mariobros.tools.Coin
 
 class B2WorldCreator(screen: PlayScreen) {
+    val goombas = Array<Goomba>()
+
     init {
         val bodyDef = BodyDef()
         val shape = PolygonShape()
@@ -49,6 +54,11 @@ class B2WorldCreator(screen: PlayScreen) {
         // Bricks
         for (mapObject in screen.map.layers[5].objects.getByType(RectangleMapObject::class.java)) {
             Brick(screen, mapObject.rectangle)
+        }
+
+        // Goomba
+        for (mapObject in screen.map.layers[6].objects.getByType(RectangleMapObject::class.java)) {
+            goombas.add(Goomba(screen, mapObject.rectangle.x, mapObject.rectangle.y))
         }
     }
 }

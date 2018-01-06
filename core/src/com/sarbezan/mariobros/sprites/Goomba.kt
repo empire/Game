@@ -35,6 +35,7 @@ class Goomba(screen: PlayScreen, x: Float, y: Float) : Enemy(screen, x, y) {
         fixtureDef.filter.maskBits = MarioBros.GROUND_BIT or
                 MarioBros.OBJECT_BIT or
                 MarioBros.MARIO_BIT or
+                MarioBros.ENEMY_BIT or
                 MarioBros.BRICK_BIT
         body.createFixture(fixtureDef).userData = this
 
@@ -56,10 +57,14 @@ class Goomba(screen: PlayScreen, x: Float, y: Float) : Enemy(screen, x, y) {
 
     fun update(dt: Float) {
         stateTime += dt
+        if (destroyed) {
+            return
+        }
         if (destroying && !destroyed) {
             screen.world.destroyBody(body)
             destroyed = true
             stateTime = 0f
+            setRegion(goombaHit)
             return
         }
         body.linearVelocity = velocity
@@ -68,9 +73,6 @@ class Goomba(screen: PlayScreen, x: Float, y: Float) : Enemy(screen, x, y) {
     }
 
     private fun getFrame(dt: Float): TextureRegion {
-        if (destroyed) {
-            return goombaHit
-        }
         return walkingAnimation.getKeyFrame(stateTime, true)
     }
 
