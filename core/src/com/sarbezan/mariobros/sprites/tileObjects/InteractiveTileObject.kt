@@ -8,9 +8,9 @@ import com.sarbezan.mariobros.screens.PlayScreen
 
 abstract class InteractiveTileObject(
         private val screen: PlayScreen,
-        private val bounds: Rectangle) {
+        bounds: Rectangle) {
     private val fixture: Fixture
-    private val body: Body
+    protected val body: Body
 
     init {
         val bodyDef = BodyDef()

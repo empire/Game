@@ -16,7 +16,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.sarbezan.mariobros.MarioBros
 import com.sarbezan.mariobros.scenes.Hud
-import com.sarbezan.mariobros.sprites.items.Mario
+import com.sarbezan.mariobros.sprites.items.ItemDef
+import com.sarbezan.mariobros.sprites.Mario
+import com.sarbezan.mariobros.sprites.items.Mushroom
+import java.util.*
 
 class PlayScreen(private val game: MarioBros) : Screen {
     val atlas = TextureAtlas("Mario_and_Enemies.atlas")
@@ -32,7 +35,10 @@ class PlayScreen(private val game: MarioBros) : Screen {
     private val b2dRenderer = Box2DDebugRenderer()
 
     private val player = Mario(this)
-    val creator = B2WorldCreator(this)
+    private val creator = B2WorldCreator(this)
+    private val items = mutableListOf<Mushroom>()
+
+    private val itemsToSpawn = LinkedList<ItemDef>()
 
     init {
         gameCam.position.set(gamePort.worldWidth / 2f, gamePort.worldHeight / 2f, 0f)
@@ -53,6 +59,7 @@ class PlayScreen(private val game: MarioBros) : Screen {
         game.batch.begin()
         player.draw(game.batch)
         creator.goombas.map { it.draw(game.batch) }
+        items.map { it.draw(game.batch) }
         game.batch.end()
 //        game.batch.projectionMatrix = hud.combined
         hud.draw()
@@ -64,6 +71,7 @@ class PlayScreen(private val game: MarioBros) : Screen {
 
     private fun update(delta: Float) {
         handleInput(delta)
+        handleSpawningItems()
         world.step(1/60f, 6, 2)
 
         player.update(delta)
@@ -73,7 +81,7 @@ class PlayScreen(private val game: MarioBros) : Screen {
                 it.body.isActive = true
             }
         }
-
+        items.map { it.update(delta) }
         gameCam.position.x = player.body.position.x
 
         gameCam.update()
@@ -82,7 +90,7 @@ class PlayScreen(private val game: MarioBros) : Screen {
         renderer.setView(gameCam)
     }
 
-    fun handleInput(dt: Float) {
+    private fun handleInput(dt: Float) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
             player.body.applyLinearImpulse(Vector2(0f, 4f), player.body.worldCenter, true)
         }
@@ -95,7 +103,6 @@ class PlayScreen(private val game: MarioBros) : Screen {
             player.body.applyLinearImpulse(Vector2(-0.1f, 0f), player.body.worldCenter, true)
         }
     }
-
 
     override fun pause() {
     }
@@ -119,5 +126,17 @@ class PlayScreen(private val game: MarioBros) : Screen {
         b2dRenderer.dispose()
 //        hud.dispose()
 
+    }
+
+    fun spawnItem(itemDef: ItemDef) {
+        itemsToSpawn.add(itemDef)
+    }
+
+    private fun handleSpawningItems() {
+        if (itemsToSpawn.size == 0) return
+        with(itemsToSpawn.pop()) {
+            if (Mushroom::class.java == type)
+                items.add(Mushroom(this@PlayScreen, position.x, position.y))
+        }
     }
 }

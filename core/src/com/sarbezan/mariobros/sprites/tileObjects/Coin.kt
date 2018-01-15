@@ -2,9 +2,12 @@ package com.sarbezan.mariobros.sprites.tileObjects
 
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.math.Rectangle
+import com.badlogic.gdx.math.Vector2
 import com.sarbezan.mariobros.MarioBros
 import com.sarbezan.mariobros.scenes.Hud
 import com.sarbezan.mariobros.screens.PlayScreen
+import com.sarbezan.mariobros.sprites.items.ItemDef
+import com.sarbezan.mariobros.sprites.items.Mushroom
 
 class Coin(private val screen: PlayScreen, bounds: Rectangle) :
         InteractiveTileObject(screen, bounds) {
@@ -22,6 +25,10 @@ class Coin(private val screen: PlayScreen, bounds: Rectangle) :
             MarioBros.assetManager.get<Sound>("audio/sounds/bump.wav").play()
             return
         } else {
+            screen.spawnItem(ItemDef(
+                    Vector2(body.position.x,
+                            body.position.y + 16f / MarioBros.PPM),
+                    Mushroom::class.java))
             MarioBros.assetManager.get<Sound>("audio/sounds/coin.wav").play()
         }
         val tile = screen.map.tileSets.getTileSet("tileset_gutter").getTile(BLANK_COIN)
