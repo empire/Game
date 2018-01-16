@@ -1,14 +1,14 @@
 package com.sarbezan.mariobros.sprites.tileObjects
 
+import com.badlogic.gdx.maps.objects.RectangleMapObject
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
-import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.physics.box2d.*
 import com.sarbezan.mariobros.MarioBros
 import com.sarbezan.mariobros.screens.PlayScreen
 
 abstract class InteractiveTileObject(
         private val screen: PlayScreen,
-        bounds: Rectangle) {
+        protected val mapObject: RectangleMapObject) {
     private val fixture: Fixture
     protected val body: Body
 
@@ -19,7 +19,7 @@ abstract class InteractiveTileObject(
 
         bodyDef.type = BodyDef.BodyType.StaticBody
         fixtureDef.shape = shape
-        with(bounds) {
+        with(mapObject.rectangle) {
             bodyDef.position.set(
                     (x + width / 2) / com.sarbezan.mariobros.MarioBros.PPM,
                     (y + height / 2) / com.sarbezan.mariobros.MarioBros.PPM)

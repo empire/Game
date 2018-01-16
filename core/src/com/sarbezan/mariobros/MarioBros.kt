@@ -35,6 +35,7 @@ class MarioBros : Game() {
             load("audio/sounds/breakblock.wav", Sound::class.java)
             load("audio/sounds/bump.wav", Sound::class.java)
             load("audio/sounds/coin.wav", Sound::class.java)
+            load("audio/sounds/powerup_spawn.wav", Sound::class.java)
             finishLoading()
         }
         setScreen(PlayScreen(this))

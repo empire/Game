@@ -48,12 +48,12 @@ class B2WorldCreator(screen: PlayScreen) {
 
         // Coins
         for (mapObject in screen.map.layers[4].objects.getByType(RectangleMapObject::class.java)) {
-            Coin(screen, mapObject.rectangle)
+            Coin(screen, mapObject)
         }
 
         // Bricks
         for (mapObject in screen.map.layers[5].objects.getByType(RectangleMapObject::class.java)) {
-            Brick(screen, mapObject.rectangle)
+            Brick(screen, mapObject)
         }
 
         // Goomba
