@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.physics.box2d.Body
 import com.sarbezan.mariobros.MarioBros
 import com.sarbezan.mariobros.screens.PlayScreen
+import com.sarbezan.mariobros.sprites.Mario
 
 abstract class Item(protected val screen: PlayScreen, x: Float, y: Float): Sprite() {
     private var destroyed = false
@@ -19,7 +20,7 @@ abstract class Item(protected val screen: PlayScreen, x: Float, y: Float): Sprit
     }
 
     abstract fun defineItem()
-    abstract fun use()
+    abstract fun use(mario: Mario)
 
     override fun draw(batch: Batch?) {
         if (!destroyed) {
@@ -38,4 +39,6 @@ abstract class Item(protected val screen: PlayScreen, x: Float, y: Float): Sprit
     fun destroy() {
         toDestroy = true
     }
+
+    abstract fun reverseVelocity(x: Boolean, y: Boolean)
 }

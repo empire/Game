@@ -40,8 +40,9 @@ class Mario(screen: PlayScreen) : Sprite(screen.atlas.findRegion("little_mario")
                 MarioBros.ENEMY_BIT or
                 MarioBros.ENEMY_HEAD_BIT or
                 MarioBros.OBJECT_BIT or
+                MarioBros.ITEM_BIT or
                 MarioBros.BRICK_BIT
-        body.createFixture(fixtureDef)
+        body.createFixture(fixtureDef).userData = this
         setBounds(16f, 0f, 16f / MarioBros.PPM, 16f / MarioBros.PPM)
         setRegion(marioStand)
 

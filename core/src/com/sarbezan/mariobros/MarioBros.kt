@@ -22,6 +22,7 @@ class MarioBros : Game() {
         val ENEMY_BIT: Short = 32
         val OBJECT_BIT: Short = 64
         val ENEMY_HEAD_BIT: Short = 128
+        val ITEM_BIT: Short = 256
 
         // Not do in production, it is not safe and cause problem on Android
         lateinit var assetManager: AssetManager

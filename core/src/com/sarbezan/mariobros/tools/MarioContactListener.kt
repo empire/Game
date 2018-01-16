@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Manifold
 import com.sarbezan.mariobros.MarioBros
 import com.sarbezan.mariobros.sprites.Mario
 import com.sarbezan.mariobros.sprites.enemies.Enemy
+import com.sarbezan.mariobros.sprites.items.Item
 import com.sarbezan.mariobros.sprites.tileObjects.InteractiveTileObject
 import kotlin.experimental.or
 
@@ -30,6 +31,8 @@ class MarioContactListener: ContactListener {
                 (contact.fixtureA.userData as? Enemy)?.reverseVelocity(true, false)
                 (contact.fixtureB.userData as? Enemy)?.reverseVelocity(true, false)
             }
+            MarioBros.ITEM_BIT or MarioBros.OBJECT_BIT -> (obj as Item).reverseVelocity(true, false)
+            MarioBros.ITEM_BIT or MarioBros.MARIO_BIT -> mario?.let { (obj as Item).use(it) }
         }
         if (mario != null && obj is InteractiveTileObject) {
             obj.onHitHead()
