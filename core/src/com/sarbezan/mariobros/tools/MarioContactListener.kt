@@ -33,9 +33,8 @@ class MarioContactListener: ContactListener {
             }
             MarioBros.ITEM_BIT or MarioBros.OBJECT_BIT -> (obj as Item).reverseVelocity(true, false)
             MarioBros.ITEM_BIT or MarioBros.MARIO_BIT -> mario?.let { (obj as Item).use(it) }
-        }
-        if (mario != null && obj is InteractiveTileObject) {
-            obj.onHitHead()
+            (MarioBros.MARIO_HEAD_BIT or MarioBros.COIN_BIT) -> (obj as InteractiveTileObject).onHitHead()
+            (MarioBros.MARIO_HEAD_BIT or MarioBros.BRICK_BIT) -> (obj as InteractiveTileObject).onHitHead()
         }
     }
 

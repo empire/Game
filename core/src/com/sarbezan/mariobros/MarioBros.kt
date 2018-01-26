@@ -23,6 +23,7 @@ class MarioBros : Game() {
         val OBJECT_BIT: Short = 64
         val ENEMY_HEAD_BIT: Short = 128
         val ITEM_BIT: Short = 256
+        val MARIO_HEAD_BIT: Short = 512
 
         // Not do in production, it is not safe and cause problem on Android
         lateinit var assetManager: AssetManager
@@ -36,6 +37,7 @@ class MarioBros : Game() {
             load("audio/sounds/bump.wav", Sound::class.java)
             load("audio/sounds/coin.wav", Sound::class.java)
             load("audio/sounds/powerup_spawn.wav", Sound::class.java)
+            load("audio/sounds/powerup.wav", Sound::class.java)
             finishLoading()
         }
         setScreen(PlayScreen(this))

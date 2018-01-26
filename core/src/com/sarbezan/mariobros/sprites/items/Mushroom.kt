@@ -42,6 +42,7 @@ class Mushroom(screen: PlayScreen, x: Float, y: Float) : Item(screen, x, y) {
 
     override fun use(mario: Mario) {
         destroy()
+        mario.grow()
     }
 
     override fun update(dt: Float) {
